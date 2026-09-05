@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>For You ❤️</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{
+  min-height:100vh; font-family:Arial, sans-serif; overflow:hidden;
+  background:linear-gradient(135deg,#ffd6e7,#fff0f5,#ffd1dc);
+  display:flex; align-items:center; justify-content:center; color:#5b1830;
+}
+.hearts{position:fixed;inset:0;pointer-events:none;overflow:hidden}
+.heart{position:absolute;font-size:22px;animation:float 7s linear infinite;opacity:.65}
+@keyframes float{from{transform:translateY(105vh) rotate(0);opacity:0}20%{opacity:.7}to{transform:translateY(-15vh) rotate(360deg);opacity:0}}
+.wrap{width:min(92%,430px);text-align:center;position:relative;z-index:2}
+.card{
+  background:rgba(255,255,255,.88); border-radius:28px; padding:34px 26px;
+  box-shadow:0 20px 60px rgba(125,35,70,.18); border:1px solid rgba(255,255,255,.8);
+  animation:pop .5s ease;
+}
+@keyframes pop{from{transform:scale(.85);opacity:0}to{transform:scale(1);opacity:1}}
+.emoji{font-size:58px;margin-bottom:14px}
+h1{font-size:31px;margin-bottom:14px}
+p{font-size:17px;line-height:1.65;margin-bottom:24px}
+button{
+  border:0;border-radius:999px;padding:13px 24px;font-size:16px;font-weight:bold;
+  cursor:pointer;background:#e83e72;color:white;box-shadow:0 8px 20px rgba(232,62,114,.25);
+  transition:.2s;margin:5px;
+}
+button:hover{transform:translateY(-2px)}
+.secondary{background:#fff;color:#d92f65;border:2px solid #f2a4bb;box-shadow:none}
+.progress{margin-top:16px;font-size:12px;opacity:.55}
+.hidden{display:none}
+#yesMessage{margin-top:18px;font-weight:bold;font-size:18px;color:#c9285d}
+.confetti{position:fixed;top:-20px;font-size:24px;animation:fall 3s linear forwards;z-index:10}
+@keyframes fall{to{transform:translateY(110vh) rotate(720deg)}}
+</style>
+</head>
+<body>
+<div class="hearts" id="hearts"></div>
+
+<div class="wrap">
+  <div class="card" id="card"></div>
+</div>
+
+<script>
+const cards = [
+  {
+    emoji:"💌", title:"Hey Love...",
+    text:"I made this little corner of the internet just for you. Please don't close it yet... 🥺❤️",
+    button:"Open it 💗"
+  },
+  {
+    emoji:"🥺", title:"First of all...",
+    text:"I'm really, really sorry. I know I may have hurt you, and I wish I could take that moment back.",
+    button:"Next →"
+  },
+  {
+    emoji:"🫶", title:"I want you to know...",
+    text:"Your feelings matter to me. You matter to me. And I'm not saying sorry just to end an argument — I'm saying it because I genuinely care about us.",
+    button:"One more 💕"
+  },
+  {
+    emoji:"🌷", title:"Thank you for being you",
+    text:"Thank you for the laughs, the memories, the little things, and for being someone who makes my world feel a little more special.",
+    button:"Keep going →"
+  },
+  {
+    emoji:"📸", title:"Our little memories",
+    text:"Every silly conversation, every laugh, every cute moment... I don't want one bad moment to erase all the beautiful ones we've made together. ❤️",
+    button:"Almost there 🥹"
+  },
+  {
+    emoji:"❤️", title:"My apology",
+    text:"I'm sorry for what I did. I promise I'll try to communicate better, understand you better, and be more careful with your heart. I don't want to lose something beautiful because of one mistake.",
+    button:"The final card 💌"
+  }
+];
+
+let i=0;
+
+function render(){
+  const c=cards[i];
+  document.getElementById("card").innerHTML=`
+    <div class="emoji">${c.emoji}</div>
+    <h1>${c.title}</h1>
+    <p>${c.text}</p>
+    <button onclick="next()">${c.button}</button>
+    <div class="progress">${i+1} / ${cards.length}</div>
+  `;
+}
+function next(){
+  i++;
+  if(i<cards.length){render();}
+  else{finalCard();}
+}
+function finalCard(){
+  document.getElementById("card").innerHTML=`
+    <div class="emoji">💖</div>
+    <h1>Will you forgive me?</h1>
+    <p>I can't promise I'll never make a mistake. But I can promise that I'll keep trying to be better for us. 🥺❤️</p>
+    <button onclick="yes()">YES ❤️</button>
+    <button class="secondary" onclick="hug()">I need a hug first 🤗</button>
+    <div id="yesMessage"></div>
+  `;
+}
+function yes(){
+  document.getElementById("yesMessage").textContent="YAYYY 🥹❤️ Come here, you! 🤗💕";
+  for(let n=0;n<45;n++){
+    const x=document.createElement("div"); x.className="confetti";
+    x.textContent=["❤️","💗","💕","✨","🌸","🥹"][Math.floor(Math.random()*6)];
+    x.style.left=Math.random()*100+"vw";
+    x.style.animationDelay=Math.random()*1.2+"s";
+    document.body.appendChild(x);
+    setTimeout(()=>x.remove(),4000);
+  }
+}
+function hug(){
+  document.getElementById("yesMessage").textContent="Okay... hug first. Then we'll talk. 🤗❤️";
+}
+for(let n=0;n<18;n++){
+  const h=document.createElement("div"); h.className="heart"; h.textContent="♥";
+  h.style.left=Math.random()*100+"%"; h.style.animationDelay=Math.random()*7+"s";
+  h.style.animationDuration=(5+Math.random()*5)+"s";
+  document.getElementById("hearts").appendChild(h);
+}
+render();
+</script>
+</body>
+</html>
